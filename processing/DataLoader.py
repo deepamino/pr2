@@ -1,6 +1,7 @@
 import random
 from Bio.Align import PairwiseAligner
 from Bio.Align import substitution_matrices
+from Bio.Seq import Seq
 
 from abc import ABC, abstractmethod
 
@@ -16,7 +17,7 @@ class RandomSequenceLoader(DataLoader):
         self.alphabet = "ACDEFGHIKLMNPQRSTVWY"
 
     def load(self, length):
-        return ''.join(random.choices(self.alphabet, k=length))
+        return Seq(''.join(random.choices(self.alphabet, k=length)))
     
 
 class DataLoaderFactory:

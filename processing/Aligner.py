@@ -15,7 +15,9 @@ class PairwiseAligner(Aligner):
         self.aligner = Align.PairwiseAligner()
         self.aligner.mode = 'global'
 
-    def align(self, seq1, seq2, matrix="BLOSUM62"):
-        self.aligner.substitution_matrix = substitution_matrices.load(matrix)
+    def align(self, seq1, seq2, matrix=None):
+        if matrix is not None:
+            self.aligner.substitution_matrix = substitution_matrices.load(matrix)
+            
         alignment = self.aligner.align(seq1, seq2)
         return alignment
