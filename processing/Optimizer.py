@@ -3,79 +3,70 @@ import copy
 
 from processing.AlignerBuilder import *
 
-seq1, seq2 = None, None
 
-def fitness_function(aligner):
-    global seq1, seq2
-    print(aligner_args(aligner))
-    print(aligner.align(seq1, seq2).score)
-    return aligner.align(seq1, seq2).score
+class GeneticAlgorithm:
+    def __init__(self, population_size, max_generations, sequence1, sequence2, fitness_function):
+        self.population_size = population_size
+        self.max_generations = max_generations
+        self.sequence1 = sequence1
+        self.sequence2 = sequence2
+        self.fitness_function = fitness_function
 
-def crossover(parent1, parent2):
-    child = copy.deepcopy(parent1)
-    parent1_args = aligner_args(parent1)
-    parent2_args = aligner_args(parent2)
-
-    for key in parent1_args.__dict__:
-        if random.random() < 0.5:
-            setattr(child, key, getattr(parent2_args, key))
-
-    return child
+    def run(self, target, query):
+        pass
     
-def aligner_args(aligner):
-    return AlignerArgs(
-        match_score=aligner.match_score,
-        mismatch_score=aligner.mismatch_score,
-        target_internal_open_gap_score=aligner.target_internal_open_gap_score,
-        target_internal_extend_gap_score=aligner.target_internal_extend_gap_score,
-        target_left_open_gap_score=aligner.target_left_open_gap_score,
-        target_left_extend_gap_score=aligner.target_left_extend_gap_score,
-        target_right_open_gap_score=aligner.target_right_open_gap_score,
-        target_right_extend_gap_score=aligner.target_right_extend_gap_score,
-        query_internal_open_gap_score=aligner.query_internal_open_gap_score,
-        query_internal_extend_gap_score=aligner.query_internal_extend_gap_score,
-        query_left_open_gap_score=aligner.query_left_open_gap_score,
-        query_left_extend_gap_score=aligner.query_left_extend_gap_score,
-        query_right_open_gap_score=aligner.query_right_open_gap_score,
-        query_right_extend_gap_score=aligner.query_right_extend_gap_score,
-    )
-    
+    def crossover(self, parent1, parent2):
+        child = copy.deepcopy(parent1)
+        parent1_args = parent1.args()
+        parent2_args = parent2.args()
 
-def mutate(individual):
-    individual_args = aligner_args(individual)
-    for key in individual_args.__dict__:
-        if random.random() < 0.1:
-            setattr(individual, key, random.random())
-    return individual
+        for key in parent1_args.__dict__:
+            if random.random() < 0.5:
+                setattr(child, key, getattr(parent2_args, key))
 
-def generate_individual():
-    args = AlignerArgs(
-        match_score=random.random()*10,
-        mismatch_score=random.random()*(-10)
-    )
+        return child
+        
+    def mutate(self, individual):
+        individual_args = individual.args()
+        for key in individual_args.__dict__:
+            if random.random() < 0.1:
+                setattr(individual, key, random.random())
+        return individual
 
-    return AlignerBuilder().with_args(args).build()
+    def generate_individual(self):
+        args = AlignerArgs(
+            match_score=random.random()*10,
+            mismatch_score=random.random()*(-10),
+            target_internal_open_gap_score=random.random()*(-10),
+            target_internal_extend_gap_score=random.random()*(-10),
+            target_left_open_gap_score=random.random()*(-10),
+            target_left_extend_gap_score=random.random()*(-10),
+            target_right_open_gap_score=random.random()*(-10),
+            target_right_extend_gap_score=random.random()*(-10),
+            query_internal_open_gap_score=random.random()*(-10),
+            query_internal_extend_gap_score=random.random()*(-10),
+            query_left_open_gap_score=random.random()*(-10),
+            query_left_extend_gap_score=random.random()*(-10),
+            query_right_open_gap_score=random.random()*(-10),
+            query_right_extend_gap_score=random.random()*(-10)
+        )
 
-def generate_population(population_size):
-    return [generate_individual() for _ in range(population_size)]
+        return AlignerBuilder().build(args)
 
-def select_individuals(population, num_individuals):
-    return random.sample(population, num_individuals)
+    def generate_population(self, population_size):
+        return [self.generate_individual() for _ in range(population_size)]
 
-def select_best_individuals(population, num_individuals):
-    return sorted(population, key=fitness_function, reverse=True)[:num_individuals]
+    def select_best_individuals(self, population, num_individuals):
+        return sorted(population, key=self.fitness_function, reverse=True)[:num_individuals]
 
-def genetic_algorithm(population_size, num_generations, sequence1, sequence2):
-    global seq1, seq2
-    seq1, seq2 = sequence1, sequence2
-
-    population = generate_population(population_size)
-    for _ in range(num_generations):
-        new_population = []
-        for _ in range(population_size):
-            parent1, parent2 = select_individuals(population, 2)
-            child = crossover(parent1, parent2)
-            child = mutate(child)
-            new_population.append(child)
-        population = new_population
-    return select_best_individuals(population, 1)[0]
+    def run(self):
+        population = self.generate_population(self.population_size)
+        for _ in range(self.max_generations):
+            new_population = []
+            for _ in range(self.max_generations):
+                parent1, parent2 = self.select_best_individuals(population, 2)
+                child = self.crossover(parent1, parent2)
+                child = self.mutate(child)
+                new_population.append(child)
+            population = new_population
+        return self.select_best_individuals(population, 1)[0]
