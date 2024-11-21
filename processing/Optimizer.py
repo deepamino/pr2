@@ -67,6 +67,10 @@ class GeneticAlgorithm:
                 parent1, parent2 = self.select_best_individuals(population, 2)
                 child = self.crossover(parent1, parent2)
                 child = self.mutate(child)
+
+                if random.random() < 0.1:
+                    child = self.mutate(child)
+
                 new_population.append(child)
             population = new_population
         return self.select_best_individuals(population, 1)[0]
