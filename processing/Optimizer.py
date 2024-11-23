@@ -11,9 +11,6 @@ class GeneticAlgorithm:
         self.sequence1 = sequence1
         self.sequence2 = sequence2
         self.fitness_function = fitness_function
-
-    def run(self, target, query):
-        pass
     
     def crossover(self, parent1, parent2):
         child = copy.deepcopy(parent1)
@@ -55,6 +52,9 @@ class GeneticAlgorithm:
 
     def generate_population(self, population_size):
         return [self.generate_individual() for _ in range(population_size)]
+    
+    def select_individuals(self, population, num_individuals):
+        return random.choices(population, k=num_individuals)
 
     def select_best_individuals(self, population, num_individuals):
         return sorted(population, key=self.fitness_function, reverse=True)[:num_individuals]
@@ -63,8 +63,8 @@ class GeneticAlgorithm:
         population = self.generate_population(self.population_size)
         for _ in range(self.max_generations):
             new_population = []
-            for _ in range(self.max_generations):
-                parent1, parent2 = self.select_best_individuals(population, 2)
+            for _ in range(self.population_size):
+                parent1, parent2 = self.select_individuals(population, 2)
                 child = self.crossover(parent1, parent2)
                 child = self.mutate(child)
 
@@ -73,4 +73,4 @@ class GeneticAlgorithm:
 
                 new_population.append(child)
             population = new_population
-        return self.select_best_individuals(population, 1)[0]
+        return population, self.select_best_individuals(population, 1)[0]

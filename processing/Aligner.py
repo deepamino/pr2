@@ -18,8 +18,11 @@ class PairwiseAligner(Aligner):
         self.aligner.mode = 'local'
 
     def align(self, seq1, seq2, matrix=None):
-        if matrix is not None:
+        if isinstance(matrix, str):
             self.aligner.substitution_matrix = substitution_matrices.load(matrix)
+            
+        elif isinstance(matrix, dict):
+            self.aligner.substitution_matrix = matrix
 
         alignment = self.aligner.align(seq1, seq2)
         return alignment
