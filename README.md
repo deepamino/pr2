@@ -4,6 +4,7 @@
 - Ricardo Juan Cárdenes Pérez
 - Susana Suárez Mendoza
 
+<div align="justify">
 Esta práctica consta de dos ejercicios que ponen en práctica la función `PairWiseAligner` de Biopython para alinear secuencias y obtener la puntuación y el alineamiento óptimo.
 
 ## Ejercicio 1: 
@@ -145,3 +146,4 @@ La Figura 5 muestra información similar a la Figura 4 salvo que esta presenta e
       <p><strong>Figura 5.</strong>Mapa de alineamiento del gen FOXP2.</p> 
 </div>
 
+</div>
