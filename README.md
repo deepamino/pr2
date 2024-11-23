@@ -5,6 +5,7 @@
 - Susana Suárez Mendoza
 
 <div align="justify">
+    
 Esta práctica consta de dos ejercicios que ponen en práctica la función `PairWiseAligner` de Biopython para alinear secuencias y obtener la puntuación y el alineamiento óptimo.
 
 ## Ejercicio 1: 
