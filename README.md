@@ -380,4 +380,16 @@ Y la matriz personalizada no es más que una variación que hemos hecho de la ma
 <div align="center">
     <img src="images/pers_matrix.png" alt="Dayhoff" />
       <p><strong>Figura 10.</strong>Matriz de puntuación `dayhoff`.</p>
+</div>
+
+### Apartado b.
+
+En lugar de generar secuencias aleatorias, ¿qué pasaría si usasemos secuencias de aminoácidos correspondientes a proteínas reales? Pues eso comprobamos en este apartado. Primeramente, probamos para las proteínas con identificadores ABG47031 y AUJ50941, correspondientes con la hemoglobina en diferentes organismos.
+
+Con algoritmos genéticos, se obtiene algo bastante similar al ejercicio anterior. Claramente, por tratarse de proteínas reales, formadas por secuencias de aminoácidos más amplias, el número de coincidencias es mayor. Sin embargo, se sigue apreciando la relación entre las coincidencias y los scores obtenidos. Además, a mayor score, mayor puntuación se le da a los valores de match_score, como se puede ver en la Figura 11.
+
+<div align="center">
+    <img src="images/dens_vals_b_ej2.png" alt="Scores" />
+      <p><strong>Figura 11.</strong>Distribución de los valores de puntuación en función del score.</p>
+</div>
 
