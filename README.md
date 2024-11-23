@@ -1,4 +1,4 @@
-# Práctica 2: Alineamientos con Biopython
+<h1 align="center">Práctica 2: Alineamientos con Biopython</h1>
 
 **Participantes:**
 - Ricardo Juan Cárdenes Pérez
@@ -148,3 +148,172 @@ La Figura 5 muestra información similar a la Figura 4 salvo que esta presenta e
 </div>
 
 </div>
+
+<br>
+
+## Ejercicio 2: Implementación del alineamiento con matrices de puntuación
+
+En este ejercicio se desarrolla una solución modular que utiliza clases específicas para implementar y configurar el proceso de alineamiento, permitiendo no sólo modificar manualmente las puntuaciones como se quiera, sino dando la oportunidad al usuario de proporcionar su propia matriz de puntuación para llevar a cabo el alineamiento, además de las matrices ya ofrecidas por BioPython.
+
+### Clases principales
+
+#### Aligner
+- Contiene la lógica principal para realizar el alineamiento.
+- Permite la configuración de los parámetros de alineamiento, como el modo (global o local), las puntuaciones de coincidencia y desajuste, y las penalizaciones de huecos.
+- Proporciona métodos para calcular el alineamiento y obtener la puntuación final.
+  
+#### AlignerArgs
+- Diseñada para manejar los argumentos necesarios para personalizar el comportamiento del alineamiento.
+- Facilita la configuración flexible de los parámetros de entrada.
+
+#### AlignerBuilder
+- Actúa como una fábrica para instanciar y configurar objetos Aligner según las necesidades del usuario.
+- Centraliza la lógica de inicialización para evitar errores al instanciar manualmente los componentes del alineamiento.
+
+#### DataLoader
+- Maneja la carga de datos de secuencias desde diferentes fuentes, como archivos locales en formato FASTA o bases de datos externas.
+- Garantiza que las secuencias estén listas para ser procesadas por las demás clases.
+
+#### Optimizer
+- Proporciona herramientas para ajustar automáticamente los parámetros del alineador utilizando técnicas como búsqueda en rejilla.
+- Permite encontrar configuraciones óptimas para maximizar la precisión del alineamiento.
+
+### Apartado a.
+
+Este apartado consiste en la generación de alineamientos de secuencias de aminoácidos obtenidas aleatoriamente a partir de un alfabéto de aminoácidos.
+
+#### Generación aleatoria de secuencias
+
+Un objeto de la clase `RandomSequenceLoader`, el cual puede instanciarse haciendo uso del Factory Method con la clase `DataLoaderFactory`, permite la generación automática de cadenas aleatorias de aminoácidos, dado un alfabeto. Así, generar dos cadenas es tan fácil como ejecutar el código dado a continuación:
+
+```python
+sequenceLoader = DataLoaderFactory.get_loader("random")
+
+sequence1 = sequenceLoader.load(50)
+sequence2 = sequenceLoader.load(50)
+```
+
+el cual generará dos secuencias de 50 aminoácidos cada una. Una vez generadas, se puede realizar el alineamiento construyendo un objeto alineador, lo cual se puede hacer mediante la clase `AlignerBuilder`:
+
+```python
+aligner = AlignerBuilder().build(
+                                AlignerArgs(
+                                    match_score=3,
+                                    mismatch_score=-1,
+                                    target_internal_extend_gap_score=-3,
+                                    target_internal_open_gap_score=-5
+                                )
+                            )
+```
+Lo que creará un alineador con los siguientes atributos:
+
+```bash
+AlignerArgs(match_score=3.0, 
+                    mismatch_score=-1.0, 
+                    target_internal_open_gap_score=-5.0, 
+                    target_internal_extend_gap_score=-3.0, 
+                    target_left_open_gap_score=0.0, 
+                    target_left_extend_gap_score=0.0, 
+                    target_right_open_gap_score=0.0, 
+                    target_right_extend_gap_score=0.0, 
+                    query_internal_open_gap_score=0.0, 
+                    query_internal_extend_gap_score=0.0, 
+                    query_left_open_gap_score=0.0, 
+                    query_left_extend_gap_score=0.0, 
+                    query_right_open_gap_score=0.0, 
+                    query_right_extend_gap_score=0.0)
+```
+
+En caso de no pasarle unos argumentos al método `AlignerBuilder.build()`, se tomarán unos por defecto. Ahora sí, podemos alinear las dos secuencias de aminoácidos ejecutando el método `align` del objeto instanciado:
+
+```python
+alignments = aligner.align(sequence1, sequence2)
+```
+
+Para ver dichos alineamientos, podemos recorrerlos en un bucle for e ir imprimiendolos poco a poco.
+
+```python
+matches = []
+scores = []
+
+for i, alignment in enumerate(alignments):
+    matches.append(get_matches(alignment))
+    scores.append(alignment.score)
+    print(f"Alignment {i}: Matches: {matches[-1]} - Score: {scores[-1]}")
+    print(f"Alignment {i}: {alignment[0]}\nAlignment {i}: {alignment[1]}\n\n")
+    
+    if i >= 10:
+        break
+```
+
+Para las secuencias
+
+- CEVGESTSHVHSIIESWNKNAMMGVMLQCQVAETYHFGTQSWQCFLEWPY
+- QTCEYWSVIDFSSETCHFNMDWARHKDGWYSVNKEGWQRWYHSYMIQHLA
+
+Se obtuvieron, por ejemplo, los siguientes alineamientos
+
+```bash
+Alignment 0: Matches: 11 - Score: 30.0
+Alignment 0: GESTSHVHSIIESWNKNAMMGVMLQCQVAETYHFGTQSWQCFLEWPY
+Alignment 0: G-WYS-V-------NK-------------E----G---WQ---RW-Y
+
+
+Alignment 1: Matches: 11 - Score: 30.0
+Alignment 1: GESTSHVHSIIESWNKNAMMGVMLQCQVAETYHFGTQSWQCFLEWPY
+Alignment 1: GW-YS-V-------NK-------------E----G---WQ---RW-Y
+
+
+Alignment 2: Matches: 11 - Score: 30.0
+Alignment 2: GESTSHVHSIIESWNKNAMMGVMLQCQVAETYHFGTQSWQCFLEWPY
+Alignment 2: GWY-S-V-------NK-------------E----G---WQ---RW-Y
+```
+
+Los cuales se pueden mejorar bastante si se modifican los valores de penalización y recompensa del alineador.
+
+
+#### Algoritmos genéticos
+
+Con el objetivo de encontrar los valores de penalización y recompensa en el alineamiento que se le pasan al alineador mediante un objeto `AlignerArgs`, implementamos algoritmos genéticos. La idea es la siguiente:
+1. Se dispone de una población incial, generalemente con unos 1200 alineadores.
+2. A menuda que avanza el algoritmo, se produces cruces entre los elementos de la población generada en el instante anterior y, con una probabilidad de 0.1, se produce una mutación en la descendencia.
+3. Al llegar a una iteración máxima, escogemos aquel individuo que presente un mayor número de coincidencias, con la esperanza de que este sea el individuo óptimo.
+
+Este algoritmo puede implementarse fácilmente para dos secuencias haciendo uso de la clase `GeneticAlgorithm`
+
+```python
+geneticAlgorithm = GeneticAlgorithm(1200, 5, sequence1, sequence2, fitness_function)
+aligners, best_aligner = geneticAlgorithm.run()
+```
+
+Donde `fitness_function` es una función que devuelve el número de coincidencias de las secuencias tras el alineamiento. Para las secuencias
+
+- CEVGESTSHVHSIIESWNKNAMMGVMLQCQVAETYHFGTQSWQCFLEWPY
+- QTCEYWSVIDFSSETCHFNMDWARHKDGWYSVNKEGWQRWYHSYMIQHLA
+
+Obtuvimos el siguiente alineamiento 
+
+```bash
+Matches: 40 - Score: 122.50782387273354
+E--EK-----S-A--V-T--A-LWG--KV-N--V---D---E--VGG-E--A------LGRL---LVVYPWTQRFFESFGDLSTPDAVMGNPKV-KA-H-GKKV-L-GA-FSD-G-L---AH-LDNL-K-----GT-F---ATLSELH-----C--D-KLHVDPENF
+EGVEKLMDIF-YAKI-RTHE-QL-GPI--FNGAVGIDDASWERH---KEKIAKFWKTML--LNENL--Y-------------------MGNP-VQ--PHI----NLL--PF-DI-KLFDV--WLD-LFKECLDQ--VFEEKA--SE-HFYEVACNI-AK------NF
+```
+
+Y el alineador que obtuvo dicho resultado tenía los siguiente valores de puntuación
+
+```bash
+Best aligner: AlignerArgs(match_score=9.948647681109431, 
+                    mismatch_score=-9.533337651215863, 
+                    target_internal_open_gap_score=-0.5626935077836481, 
+                    target_internal_extend_gap_score=-1.3224425395624184, 
+                    target_left_open_gap_score=-6.51439919407234, 
+                    target_left_extend_gap_score=-6.198810320244487, 
+                    target_right_open_gap_score=-8.45221923577287, 
+                    target_right_extend_gap_score=-1.9226450171121012, 
+                    query_internal_open_gap_score=-7.728482601267625, 
+                    query_internal_extend_gap_score=-1.1109554998452031, 
+                    query_left_open_gap_score=-3.790308498217315, 
+                    query_left_extend_gap_score=-0.10826586286379447, 
+                    query_right_open_gap_score=-7.031120693617138, 
+                    query_right_extend_gap_score=-3.4951787092206086)
+```
