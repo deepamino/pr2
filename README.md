@@ -145,4 +145,3 @@ La Figura 5 muestra información similar a la Figura 4 salvo que esta presenta e
       <p><strong>Figura 5.</strong>Mapa de alineamiento del gen FOXP2.</p> 
 </div>
 
-En definitiva, este ha sido el estudio planteado para el ejercicio 1.
