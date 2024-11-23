@@ -317,3 +317,67 @@ Best aligner: AlignerArgs(match_score=9.948647681109431,
                     query_right_open_gap_score=-7.031120693617138, 
                     query_right_extend_gap_score=-3.4951787092206086)
 ```
+
+En cuanto a la población obtenida en la última iteración del algoritmo, cada uno de los alineadores presentaba un número un número de score diferente. Si graficamos los scores obtenidos, obtenemos una distribución como la que se muestra en la Figura 6.
+
+<div align="center">
+    <img src="images/dens_ej_2.png" alt="Scores" />
+      <p><strong>Figura 6.</strong>Distribución de los scores obtenidos.</p>
+</div>
+
+Además, podemos representar cómo fueron los valores de match_score y mismatch_score, entre otros, que dieron lugar a los distintos scores. Para ello, representamos para cada cuartil de los scores los valores de match_score, mismatch_score, target_internal_open_gap_score y target_internal_extend_gap_score que dieron lugar a dichos scores. La Figura 7 muestra cómo se distribuyen estos valores.
+
+<div align="center">
+    <img src="images/dens_vals_ej2.png" alt="Boxplot" />
+      <p><strong>Figura 7.</strong>Boxplot de los valores de los parámetros en función de los scores.</p>
+</div>
+
+En cuando al número de coincidencias, la Figura 8 muestra cómo se distribuyen los valores de coincidencias en función de los scores obtenidos.
+
+<div align="center">
+    <img src="images/dens_matches_ej2.png" alt="Boxplot" />
+      <p><strong>Figura 8.</strong>Boxplot de las coincidencias en función de los scores.</p>
+</div>
+
+#### Alineamineto con matrices de puntuación
+
+En este apartado, se han usado una serie de matrices de puntuación para alinear las secuencias de aminoácidos. Para ello, basta con pasarle la matriz de puntuación deseada al método `align` del objeto `Aligner`. Por ejemplo, para alinear las secuencias
+
+- CEVGESTSHVHSIIESWNKNAMMGVMLQCQVAETYHFGTQSWQCFLEWPY
+- QTCEYWSVIDFSSETCHFNMDWARHKDGWYSVNKEGWQRWYHSYMIQHLA
+
+usando la matriz de puntuación `blosum62`, basta con ejecutar el siguiente código
+
+```python
+aligner = AlignerBuilder().build()
+alignments = aligner.align(sequence1, sequence2, matrix="blosum62")
+```
+
+Además, podemos crear una matriz propia desde cero, guardando esta en un archivo y pasándole la ruta de dicho archivo al método `substitution_matrices.read`. En nuestro caso, dado que la matriz se encuentra en `data/MATRIX`, el código sería el siguiente
+
+```python
+matrix = substitution_matrices.read("data/MATRIX")
+``` 
+
+Ahora, podemos pasarle esta matriz al alineador de la forma
+
+```python
+aligner = AlignerBuilder().build()
+alignments = aligner.align(sequence1, sequence2, matrix=matrix)
+```
+
+Igual que ocurría cuando usabamos las matrices que venían por defecto.
+
+Las matrices ofrecias por BioPython utilizadas son las mostradas en la Figura 9.
+
+<div align="center">
+    <img src="images/matrices.png" alt="Matrices" />
+      <p><strong>Figura 9.</strong>Matrices de puntuación utilizadas.</p>
+</div>
+
+Y la matriz personalizada no es más que una variación que hemos hecho de la matriz `dayhoff`, en la cual hemos activada la diagonal invertida, poniendo la mayoría de sus valores mayores que 1. La figura 10 muestra cómo es esta matriz con respecto a la matriz `dayhoff`.
+
+<div align="center">
+    <img src="images/pers_matrix.png" alt="Dayhoff" />
+      <p><strong>Figura 10.</strong>Matriz de puntuación `dayhoff`.</p>
+
