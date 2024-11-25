@@ -1,4 +1,6 @@
 import random
+import os
+
 from Bio.Align import PairwiseAligner
 from Bio.Align import substitution_matrices
 from Bio.Seq import Seq
@@ -32,19 +34,31 @@ class ApiSequenceLoader(DataLoader):
         ids = ",".join(id_list)
         handle = Entrez.efetch(db=self.type, id=ids, rettype="fasta", retmode="text")
         sequences = list(SeqIO.parse(handle, "fasta"))
+
         handle.close()
 
+        self.get_sequences_by_id(id_list)
         return sequences
-
-    def search_protein(self, term, retmax=10):
-        handle = Entrez.esearch(db=self.type, term=term, retmax=retmax)
-        record = Entrez.read(handle)
-        handle.close()
-
-        id_list = record["IdList"]
-        print(f"Found {len(id_list)} results.")
-        return id_list
     
+    def get_sequences_by_id(self, ids, db="protein", folder="sequences"):
+        routes = []
+        for id in ids:
+            with Entrez.efetch(db=db, id=id, rettype="fasta", retmode="text") as fetch:
+                content = fetch.read()
+            
+            first_line = content.split("\n")[0]
+            unique_id = first_line.split()[0][1:]
+            filename = unique_id.replace(".", "_") + ".fasta"
+            file_route = os.path.join(folder, filename)
+            
+            with open(file_route, "w") as file:
+                file.write(content)
+                print(f"File {filename} created")
+
+            routes.append(file_route)
+        
+        return routes
+
 
 class DataLoaderFactory:
     @staticmethod
