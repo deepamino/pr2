@@ -147,8 +147,6 @@ La Figura 5 muestra información similar a la Figura 4 salvo que esta presenta e
       <p><strong>Figura 5.</strong>Mapa de alineamiento del gen FOXP2.</p> 
 </div>
 
-</div>
-
 <br>
 
 ## Ejercicio 2: Implementación del alineamiento con matrices de puntuación
@@ -384,7 +382,7 @@ Y la matriz personalizada no es más que una variación que hemos hecho de la ma
 
 Se obtuvieron los distintos resultados para las diferentes matrices:
 
-<center>
+<div align="center">
 <table border="1" style="border-collapse: collapse; text-align: center;">
   <thead>
     <tr>
@@ -441,9 +439,9 @@ Se obtuvieron los distintos resultados para las diferentes matrices:
     </tr>
   </tbody>
 </table>
-</center>
 
-<p style="text-align: center;"><strong>Tabla 1.</strong>Resultados obtenidos para las distintas matrices de puntuación<br>para las secuencias aleatorias de aminoácidos.</p>
+<p><strong>Tabla 1.</strong>Resultados obtenidos para las distintas matrices de puntuación<br>para las secuencias aleatorias de aminoácidos.</p>
+</div>
 
 Tanto los resultados recién expuestos como la útilidad de cada una de las matrices persentadas se presentan más en detalle en el notebook `Ejercicio_2.ipynb`.
 
@@ -497,7 +495,7 @@ AlignerArgs(match_score=8.765089059806709,
 
 En cuanto a las matrices de puntuación, se obtuvieron los resultados presentados en la tabla 2.
 
-<center>
+<div align="center">
 <table border="1" style="border-collapse: collapse; text-align: center;">
   <thead>
     <tr>
@@ -554,6 +552,6 @@ En cuanto a las matrices de puntuación, se obtuvieron los resultados presentado
     </tr>
   </tbody>
 </table>
-</center>
-
 <p style="text-align: center;"><strong>Tabla 2.</strong>Resultados obtenidos para las distintas matrices de puntuación<br>para las secuencias de aminoácidos reales correspondientes a la proteína<br>de la hemoglobina para el Homo sapiens y Brachyspira hyodysenteriae.</p>
+</div>
+</div>
