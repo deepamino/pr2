@@ -443,6 +443,8 @@ Se obtuvieron los distintos resultados para las diferentes matrices:
 <p><strong>Tabla 1.</strong>Resultados obtenidos para las distintas matrices de puntuación<br>para las secuencias aleatorias de aminoácidos.</p>
 </div>
 
+Podemos ver como la matriz PAM30, la cual es útil para numerosos estudios de procesos evolutivos, es la que mayor número de coincidencias ha obtenido, con un total de 14, junto con la matriz BLOSUM80. Las peores han sido las matrices PAM250 y DAYHOFF, con un total de 10 coincidencias y un score de 12.4
+
 Tanto los resultados recién expuestos como la útilidad de cada una de las matrices persentadas se presentan más en detalle en el notebook `Ejercicio_2.ipynb`.
 
 ### Apartado b.
@@ -576,4 +578,6 @@ En cuanto a las matrices de puntuación, se obtuvieron los resultados presentado
 </table>
 <p style="text-align: center;"><strong>Tabla 2.</strong>Resultados obtenidos para las distintas matrices de puntuación<br>para las secuencias de aminoácidos reales correspondientes a la proteína<br>de la hemoglobina para el Homo sapiens y Brachyspira hyodysenteriae.</p>
 </div>
+
+Podemos ver como el comportamiento en cuanto a los matches es exactamente igual al caso con las secuencias generadas aleatoriamente, siendo las matrices PAM30 y BLOSUM80 las que mayor número de coincidencias han obtenido, esta vez con un total de 41 y 40, respectivamente. Las peores han sido las matrices PAM250 y DAYHOFF, con un total de 38 y, de nuevo, un mismo score, ahora de 26.7
 </div>
