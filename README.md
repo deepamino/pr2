@@ -151,6 +151,7 @@ La Figura 5 muestra información similar a la Figura 4 salvo que esta presenta e
 
 <br>
 
+<div align="justify">
 ## Ejercicio 2: Implementación del alineamiento con matrices de puntuación
 
 En este ejercicio se desarrolla una solución modular que utiliza clases específicas para implementar y configurar el proceso de alineamiento, permitiendo no sólo modificar manualmente las puntuaciones como se quiera, sino dando la oportunidad al usuario de proporcionar su propia matriz de puntuación para llevar a cabo el alineamiento, además de las matrices ya ofrecidas por BioPython.
@@ -460,100 +461,3 @@ Con algoritmos genéticos, se obtiene algo bastante similar al ejercicio anterio
       <p><strong>Figura 11.</strong>Distribución de los valores de puntuación en función del score.</p>
 </div>
 
-El número de coincidencias, por otra parte, se distribuye, en cada uno de los cuartiles del score, como se muestra en la Figura 12.
-
-<div align="center">
-    <img src="images/dens_match_2b.png" alt="Scores" />
-      <p><strong>Figura 12.</strong>Distribución de las coincidencias en función del score.</p>
-</div>
-
-Donde el mejor de los alineadores consiguió un máximo score de 216.24 para un total de 37 coincidencias.
-
-```bash
-Alignment: M-V-H-L-T-P--E--EKS-A-V-T-A-L-W-GK-V-N-V-DE-V-G----GEA-LGR-L-L-V-V-YPWT-QR-F-FE---S-F--G-D-L-S-T-P-D-A-VMGNPKV-K-AHG-K-K-VLG-AFSD-G-L--A-H-LDNL-K----G-T-F---ATLSELHC-D-K-LHV---D-P-E-NF
-Alignment: MK-Y-N-E-I-NNEGVEK-L-M-D-I-F-Y-A-KI-R-T-H-EQ-LGPIFNG-AV-G-I-D-D-A-S--W-E-RH-K-EKIA-KFWK-T-MLL-N-E-N-L-Y-MGNP-VQ-P-H-I-N-L-L-P-F-DI-KLFD-V-WLD-LFKECLD-Q-VFEEKA--SE-H-F-Y-E--VACN-I-A-KNF
-Matches: 37
-Score: 216.24739145844785
-```
-
-Los valores de puntuación de este alineador son los siguientes
-
-```text
-AlignerArgs(match_score=8.765089059806709, 
-                    mismatch_score=-7.011220973317728, 
-                    target_internal_open_gap_score=-0.5623531657709313, 
-                    target_internal_extend_gap_score=-2.003851836258006, 
-                    target_left_open_gap_score=-5.890230526767447, 
-                    target_left_extend_gap_score=-4.866189273556291, 
-                    target_right_open_gap_score=-4.469584379260856, 
-                    target_right_extend_gap_score=-7.802490570828342, 
-                    query_internal_open_gap_score=-0.35526679023845986, 
-                    query_internal_extend_gap_score=-5.757199063223797, 
-                    query_left_open_gap_score=-7.577063343395359, 
-                    query_left_extend_gap_score=-3.301926713723743, 
-                    query_right_open_gap_score=-7.0945596424732305, 
-                    query_right_extend_gap_score=-0.7394945917675055)
-```
-
-En cuanto a las matrices de puntuación, se obtuvieron los resultados presentados en la tabla 2.
-
-<center>
-<table border="1" style="border-collapse: collapse; text-align: center;">
-  <thead>
-    <tr>
-      <th>Matrix</th>
-      <th>Score</th>
-      <th>Matches</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>PAM30</td>
-      <td>335.0</td>
-      <td>41</td>
-    </tr>
-    <tr>
-      <td>BLOSUM62</td>
-      <td>248.0</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <td>BLOSUM50</td>
-      <td>318.0</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <td>BLOSUM80</td>
-      <td>389.0</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <td>BLASTP</td>
-      <td>248.0</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <td>LEVIN</td>
-      <td>99.0</td>
-      <td>39</td>
-    </tr>
-    <tr>
-      <td>PAM250</td>
-      <td>267.0</td>
-      <td>38</td>
-    </tr>
-    <tr>
-      <td>DAYHOFF</td>
-      <td>26.7</td>
-      <td>38</td>
-    </tr>
-    <tr>
-      <td>Personalized</td>
-      <td>26.7</td>
-      <td>38</td>
-    </tr>
-  </tbody>
-</table>
-</center>
-
-<p style="text-align: center;"><strong>Tabla 2.</strong>Resultados obtenidos para las distintas matrices de puntuación<br>para las secuencias de aminoácidos reales correspondientes a la proteína<br>de la hemoglobina para el Homo sapiens y Brachyspira hyodysenteriae.</p>
