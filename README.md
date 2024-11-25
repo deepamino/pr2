@@ -382,9 +382,76 @@ Y la matriz personalizada no es más que una variación que hemos hecho de la ma
       <p><strong>Figura 10.</strong>Matriz de puntuación `dayhoff`.</p>
 </div>
 
+Se obtuvieron los distintos resultados para las diferentes matrices:
+
+<center>
+<table border="1" style="border-collapse: collapse; text-align: center;">
+  <thead>
+    <tr>
+      <th>Matrix</th>
+      <th>Score</th>
+      <th>Matches</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PAM30</td>
+      <td>123.0</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <td>BLOSUM80</td>
+      <td>140.0</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <td>BLOSUM62</td>
+      <td>91.0</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <td>LEVIN</td>
+      <td>34.0</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <td>BLASTP</td>
+      <td>91.0</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <td>BLOSUM50</td>
+      <td>119.0</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>PAM250</td>
+      <td>124.0</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <td>DAYHOFF</td>
+      <td>12.4</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <td>Personalized</td>
+      <td>12.4</td>
+      <td>11</td>
+    </tr>
+  </tbody>
+</table>
+</center>
+
+<p style="text-align: center;"><strong>Tabla 1.</strong>Resultados obtenidos para las distintas matrices de puntuación<br>para las secuencias aleatorias de aminoácidos.</p>
+
+Tanto los resultados recién expuestos como la útilidad de cada una de las matrices persentadas se presentan más en detalle en el notebook `Ejercicio_2.ipynb`.
+
 ### Apartado b.
 
-En lugar de generar secuencias aleatorias, ¿qué pasaría si usasemos secuencias de aminoácidos correspondientes a proteínas reales? Pues eso comprobamos en este apartado. Primeramente, probamos para las proteínas con identificadores ABG47031 y AUJ50941, correspondientes con la hemoglobina en diferentes organismos.
+En lugar de generar secuencias aleatorias, ¿qué pasaría si usasemos secuencias de aminoácidos correspondientes a proteínas reales? Pues eso comprobamos en este apartado. Primeramente, probamos para las proteínas con identificadores ABG47031 y AUJ50941, correspondientes con la hemoglobina en diferentes organismos (Homo Sapiens y la bacteria Brachyspira hyodysenteriae)
+
+(*) Los ficheros FASTA correspondientes a cada  proteína se encuentran en la carpeta `sequences`, y se han obtenido a través de la API de NCBI (National Center for Biotechnology Information) mediante el módiulo `Bio.Entrez` de Biopython.
 
 Con algoritmos genéticos, se obtiene algo bastante similar al ejercicio anterior. Claramente, por tratarse de proteínas reales, formadas por secuencias de aminoácidos más amplias, el número de coincidencias es mayor. Sin embargo, se sigue apreciando la relación entre las coincidencias y los scores obtenidos. Además, a mayor score, mayor puntuación se le da a los valores de match_score, como se puede ver en la Figura 11.
 
@@ -393,3 +460,100 @@ Con algoritmos genéticos, se obtiene algo bastante similar al ejercicio anterio
       <p><strong>Figura 11.</strong>Distribución de los valores de puntuación en función del score.</p>
 </div>
 
+El número de coincidencias, por otra parte, se distribuye, en cada uno de los cuartiles del score, como se muestra en la Figura 12.
+
+<div align="center">
+    <img src="images/dens_match_2b.png" alt="Scores" />
+      <p><strong>Figura 12.</strong>Distribución de las coincidencias en función del score.</p>
+</div>
+
+Donde el mejor de los alineadores consiguió un máximo score de 216.24 para un total de 37 coincidencias.
+
+```bash
+Alignment: M-V-H-L-T-P--E--EKS-A-V-T-A-L-W-GK-V-N-V-DE-V-G----GEA-LGR-L-L-V-V-YPWT-QR-F-FE---S-F--G-D-L-S-T-P-D-A-VMGNPKV-K-AHG-K-K-VLG-AFSD-G-L--A-H-LDNL-K----G-T-F---ATLSELHC-D-K-LHV---D-P-E-NF
+Alignment: MK-Y-N-E-I-NNEGVEK-L-M-D-I-F-Y-A-KI-R-T-H-EQ-LGPIFNG-AV-G-I-D-D-A-S--W-E-RH-K-EKIA-KFWK-T-MLL-N-E-N-L-Y-MGNP-VQ-P-H-I-N-L-L-P-F-DI-KLFD-V-WLD-LFKECLD-Q-VFEEKA--SE-H-F-Y-E--VACN-I-A-KNF
+Matches: 37
+Score: 216.24739145844785
+```
+
+Los valores de puntuación de este alineador son los siguientes
+
+```text
+AlignerArgs(match_score=8.765089059806709, 
+                    mismatch_score=-7.011220973317728, 
+                    target_internal_open_gap_score=-0.5623531657709313, 
+                    target_internal_extend_gap_score=-2.003851836258006, 
+                    target_left_open_gap_score=-5.890230526767447, 
+                    target_left_extend_gap_score=-4.866189273556291, 
+                    target_right_open_gap_score=-4.469584379260856, 
+                    target_right_extend_gap_score=-7.802490570828342, 
+                    query_internal_open_gap_score=-0.35526679023845986, 
+                    query_internal_extend_gap_score=-5.757199063223797, 
+                    query_left_open_gap_score=-7.577063343395359, 
+                    query_left_extend_gap_score=-3.301926713723743, 
+                    query_right_open_gap_score=-7.0945596424732305, 
+                    query_right_extend_gap_score=-0.7394945917675055)
+```
+
+En cuanto a las matrices de puntuación, se obtuvieron los resultados presentados en la tabla 2.
+
+<center>
+<table border="1" style="border-collapse: collapse; text-align: center;">
+  <thead>
+    <tr>
+      <th>Matrix</th>
+      <th>Score</th>
+      <th>Matches</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PAM30</td>
+      <td>335.0</td>
+      <td>41</td>
+    </tr>
+    <tr>
+      <td>BLOSUM62</td>
+      <td>248.0</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <td>BLOSUM50</td>
+      <td>318.0</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <td>BLOSUM80</td>
+      <td>389.0</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <td>BLASTP</td>
+      <td>248.0</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <td>LEVIN</td>
+      <td>99.0</td>
+      <td>39</td>
+    </tr>
+    <tr>
+      <td>PAM250</td>
+      <td>267.0</td>
+      <td>38</td>
+    </tr>
+    <tr>
+      <td>DAYHOFF</td>
+      <td>26.7</td>
+      <td>38</td>
+    </tr>
+    <tr>
+      <td>Personalized</td>
+      <td>26.7</td>
+      <td>38</td>
+    </tr>
+  </tbody>
+</table>
+</center>
+
+<p style="text-align: center;"><strong>Tabla 2.</strong>Resultados obtenidos para las distintas matrices de puntuación<br>para las secuencias de aminoácidos reales correspondientes a la proteína<br>de la hemoglobina para el Homo sapiens y Brachyspira hyodysenteriae.</p>
