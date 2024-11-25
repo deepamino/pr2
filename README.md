@@ -447,7 +447,29 @@ Tanto los resultados recién expuestos como la útilidad de cada una de las matr
 
 ### Apartado b.
 
-En lugar de generar secuencias aleatorias, ¿qué pasaría si usasemos secuencias de aminoácidos correspondientes a proteínas reales? Pues eso comprobamos en este apartado. Primeramente, probamos para las proteínas con identificadores ABG47031 y AUJ50941, correspondientes con la hemoglobina en diferentes organismos (Homo Sapiens y la bacteria Brachyspira hyodysenteriae)
+En lugar de generar secuencias aleatorias, ¿qué pasaría si usasemos secuencias de aminoácidos correspondientes a proteínas reales? Pues eso comprobamos en este apartado. Primeramente, probamos para las proteínas con identificadores ABG47031 y AUJ50941, correspondientes con la hemoglobina en diferentes organismos (Homo Sapiens y la bacteria Brachyspira hyodysenteriae). Para cargar dichas secuencias, se ejecuta el siguiente código:
+
+```python
+sequenceLoader = DataLoaderFactory.get_loader("api")
+
+sequence1 = sequenceLoader.load(('ABG47031.1',))[0].seq
+sequence2 = sequenceLoader.load(('AUJ50941.1',))[0].seq
+
+print(f"Sequence 1: {sequence1}")
+print(f"Sequence 2: {sequence2}")
+```
+
+Lo que dará como resultado las siguientes secuencias de aminoácidos:
+
+```text
+File ABG47031_1.fasta created
+File AUJ50941_1.fasta created
+Sequence 1: MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELHCDKLHVDPENFR
+Sequence 2: MKYNEINNEGVEKLMDIFYAKIRTHEQLGPIFNGAVGIDDASWERHKEKIAKFWKTMLLNENLYMGNPVQPHINLLPFDIKLFDVWLDLFKECLDQVFEEKASEHFYEVACNIAKNFKAVLFQQ
+```
+
+Indicando además los ficheros FASTA generados.
+
 
 (*) Los ficheros FASTA correspondientes a cada  proteína se encuentran en la carpeta `sequences`, y se han obtenido a través de la API de NCBI (National Center for Biotechnology Information) mediante el módiulo `Bio.Entrez` de Biopython.
 
