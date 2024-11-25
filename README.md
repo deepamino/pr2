@@ -151,6 +151,7 @@ La Figura 5 muestra información similar a la Figura 4 salvo que esta presenta e
 
 <br>
 
+<div align="justify">
 ## Ejercicio 2: Implementación del alineamiento con matrices de puntuación
 
 En este ejercicio se desarrolla una solución modular que utiliza clases específicas para implementar y configurar el proceso de alineamiento, permitiendo no sólo modificar manualmente las puntuaciones como se quiera, sino dando la oportunidad al usuario de proporcionar su propia matriz de puntuación para llevar a cabo el alineamiento, además de las matrices ya ofrecidas por BioPython.
@@ -393,3 +394,4 @@ Con algoritmos genéticos, se obtiene algo bastante similar al ejercicio anterio
       <p><strong>Figura 11.</strong>Distribución de los valores de puntuación en función del score.</p>
 </div>
 
+</div>
