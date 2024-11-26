@@ -147,8 +147,6 @@ La Figura 5 muestra información similar a la Figura 4 salvo que esta presenta e
       <p><strong>Figura 5.</strong>Mapa de alineamiento del gen FOXP2.</p> 
 </div>
 
-</div>
-
 <br>
 
 ## Ejercicio 2: Implementación del alineamiento con matrices de puntuación
@@ -384,7 +382,7 @@ Y la matriz personalizada no es más que una variación que hemos hecho de la ma
 
 Se obtuvieron los distintos resultados para las diferentes matrices:
 
-<center>
+<div align="center">
 <table border="1" style="border-collapse: collapse; text-align: center;">
   <thead>
     <tr>
@@ -441,15 +439,39 @@ Se obtuvieron los distintos resultados para las diferentes matrices:
     </tr>
   </tbody>
 </table>
-</center>
 
-<p style="text-align: center;"><strong>Tabla 1.</strong>Resultados obtenidos para las distintas matrices de puntuación<br>para las secuencias aleatorias de aminoácidos.</p>
+<p><strong>Tabla 1.</strong>Resultados obtenidos para las distintas matrices de puntuación<br>para las secuencias aleatorias de aminoácidos.</p>
+</div>
+
+Podemos ver como la matriz PAM30, la cual es útil para numerosos estudios de procesos evolutivos, es la que mayor número de coincidencias ha obtenido, con un total de 14, junto con la matriz BLOSUM80. Las peores han sido las matrices PAM250 y DAYHOFF, con un total de 10 coincidencias y un score de 12.4
 
 Tanto los resultados recién expuestos como la útilidad de cada una de las matrices persentadas se presentan más en detalle en el notebook `Ejercicio_2.ipynb`.
 
 ### Apartado b.
 
-En lugar de generar secuencias aleatorias, ¿qué pasaría si usasemos secuencias de aminoácidos correspondientes a proteínas reales? Pues eso comprobamos en este apartado. Primeramente, probamos para las proteínas con identificadores ABG47031 y AUJ50941, correspondientes con la hemoglobina en diferentes organismos (Homo Sapiens y la bacteria Brachyspira hyodysenteriae)
+En lugar de generar secuencias aleatorias, ¿qué pasaría si usasemos secuencias de aminoácidos correspondientes a proteínas reales? Pues eso comprobamos en este apartado. Primeramente, probamos para las proteínas con identificadores ABG47031 y AUJ50941, correspondientes con la hemoglobina en diferentes organismos (Homo Sapiens y la bacteria Brachyspira hyodysenteriae). Para cargar dichas secuencias, se ejecuta el siguiente código:
+
+```python
+sequenceLoader = DataLoaderFactory.get_loader("api")
+
+sequence1 = sequenceLoader.load(('ABG47031.1',))[0].seq
+sequence2 = sequenceLoader.load(('AUJ50941.1',))[0].seq
+
+print(f"Sequence 1: {sequence1}")
+print(f"Sequence 2: {sequence2}")
+```
+
+Lo que dará como resultado las siguientes secuencias de aminoácidos:
+
+```text
+File ABG47031_1.fasta created
+File AUJ50941_1.fasta created
+Sequence 1: MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELHCDKLHVDPENFR
+Sequence 2: MKYNEINNEGVEKLMDIFYAKIRTHEQLGPIFNGAVGIDDASWERHKEKIAKFWKTMLLNENLYMGNPVQPHINLLPFDIKLFDVWLDLFKECLDQVFEEKASEHFYEVACNIAKNFKAVLFQQ
+```
+
+Indicando además los ficheros FASTA generados.
+
 
 (*) Los ficheros FASTA correspondientes a cada  proteína se encuentran en la carpeta `sequences`, y se han obtenido a través de la API de NCBI (National Center for Biotechnology Information) mediante el módiulo `Bio.Entrez` de Biopython.
 
@@ -497,7 +519,7 @@ AlignerArgs(match_score=8.765089059806709,
 
 En cuanto a las matrices de puntuación, se obtuvieron los resultados presentados en la tabla 2.
 
-<center>
+<div align="center">
 <table border="1" style="border-collapse: collapse; text-align: center;">
   <thead>
     <tr>
@@ -554,9 +576,11 @@ En cuanto a las matrices de puntuación, se obtuvieron los resultados presentado
     </tr>
   </tbody>
 </table>
-</center>
-
 <p style="text-align: center;"><strong>Tabla 2.</strong>Resultados obtenidos para las distintas matrices de puntuación<br>para las secuencias de aminoácidos reales correspondientes a la proteína<br>de la hemoglobina para el Homo sapiens y Brachyspira hyodysenteriae.</p>
+</div>
+
+Podemos ver como el comportamiento en cuanto a los matches es exactamente igual al caso con las secuencias generadas aleatoriamente, siendo las matrices PAM30 y BLOSUM80 las que mayor número de coincidencias han obtenido, esta vez con un total de 41 y 40, respectivamente. Las peores han sido las matrices PAM250 y DAYHOFF, con un total de 38 y, de nuevo, un mismo score, ahora de 26.7
+</div>
 
 Esto lo hemos probado también para la proteína de insulina en  los humanos y en los ratones, y se obtienen resultados similares, como se observa en la Tabla 3.
 
