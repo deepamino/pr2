@@ -60,6 +60,18 @@ class ApiSequenceLoader(DataLoader):
         return routes
 
 
+class FastaDataLoader(DataLoader):
+    def __init__(self):
+        pass
+
+    def load(self, filename):
+        lines = []
+        with open(filename, "r") as file:
+            lines = file.readlines()
+
+        return ''.join(lines[1:]).replace("\n", "")
+    
+
 class DataLoaderFactory:
     @staticmethod
     def get_loader(loader_type):
@@ -68,3 +80,6 @@ class DataLoaderFactory:
         
         elif loader_type == "api":
             return ApiSequenceLoader()
+        
+        elif loader_type == "fasta":
+            return FastaDataLoader()

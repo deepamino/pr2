@@ -557,3 +557,73 @@ En cuanto a las matrices de puntuación, se obtuvieron los resultados presentado
 </center>
 
 <p style="text-align: center;"><strong>Tabla 2.</strong>Resultados obtenidos para las distintas matrices de puntuación<br>para las secuencias de aminoácidos reales correspondientes a la proteína<br>de la hemoglobina para el Homo sapiens y Brachyspira hyodysenteriae.</p>
+
+Esto lo hemos probado también para la proteína de insulina en  los humanos y en los ratones, y se obtienen resultados similares, como se observa en la Tabla 3.
+
+<div align="center">
+<table border="1">
+  <tr>
+    <th>Matrix</th>
+    <th>Score</th>
+    <th>Matches</th>
+  </tr>
+  <tr>
+    <td>BLOSUM80</td>
+    <td>759.0</td>
+    <td>87</td>
+  </tr>
+  <tr>
+    <td>PAM30</td>
+    <td>674.0</td>
+    <td>87</td>
+  </tr>
+  <tr>
+    <td>BLOSUM50</td>
+    <td>616.0</td>
+    <td>87</td>
+  </tr>
+  <tr>
+    <td>BLOSUM62</td>
+    <td>474.0</td>
+    <td>87</td>
+  </tr>
+  <tr>
+    <td>BLASTP</td>
+    <td>474.0</td>
+    <td>87</td>
+  </tr>
+  <tr>
+    <td>PAM250</td>
+    <td>512.0</td>
+    <td>86</td>
+  </tr>
+  <tr>
+    <td>LEVIN</td>
+    <td>186.0</td>
+    <td>86</td>
+  </tr>
+  <tr>
+    <td>DAYHOFF</td>
+    <td>51.2</td>
+    <td>86</td>
+  </tr>
+  <tr>
+    <td>Personalized</td>
+    <td>51.2</td>
+    <td>86</td>
+  </tr>
+</table>
+
+<p style="text-align: center;"><strong>Tabla 3.</strong>Resultados obtenidos para las distintas matrices de puntuación<br>para las secuencias de aminoácidos reales correspondientes a la proteína<br>de la insulina para el Homo sapiens y el ratón.</p>
+</div>
+
+En general, las matrices PAM30 y BLOSUM80 son las mejores en este análisis porque están optimizadas para diferentes aspectos de alineación que las hacen especialmente efectivas:
+
+**Alta resolución para sustituciones frecuentes:**
+- PAM30 está diseñada para alineaciones de secuencias muy cercanas evolutivamente, como las de proteínas que comparten una alta similitud. Esto explica su desempeño sobresaliente al trabajar con secuencias similares, ya que puede identificar con precisión las sustituciones más frecuentes en secuencias con pocas divergencias evolutivas, como en el caso de la hemoglobina entre humanos y bacterias específicas.
+
+**Rendimiento en secuencias más largas y conservadas:**
+- BLOSUM80, por otro lado, se construye a partir de bloques de secuencias conservadas y está optimizada para detectar similitudes en secuencias más largas y altamente conservadas. Esto la hace particularmente útil para proteínas con regiones funcionales conservadas, como la hemoglobina, que presenta patrones estructurales y funcionales bien definidos.
+
+**Balance entre sensibilidad y especificidad:**
+- Ambas matrices logran un balance adecuado entre sensibilidad (detectar similitudes reales) y especificidad (evitar similitudes falsas). Esto se traduce en una mayor puntuación y un número elevado de coincidencias, maximizando la relevancia de los alineamientos.
